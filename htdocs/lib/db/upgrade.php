@@ -3270,17 +3270,31 @@ function xmldb_core_upgrade($oldversion=0) {
         add_field($table, $field);
 
         // Fill the new field with path data.
-        $artefacts = get_records_array('artefact', '', '', '', 'id, parent');
-        $artefact_relations = get_records_menu('artefact', '', '', '', 'id, parent');
-        if ($artefacts && $artefact_relations) {
-            foreach ($artefacts as $artefact) {
-                $path = '/' . implode('/', artefact_get_lineage($artefact_relations, $artefact->id));
+        // Set all artefacts to the path they'd have if they have no parent.
+        log_debug('Filling in parent artefact paths');
+        execute_sql("UPDATE {artefact} SET path = '/' || id WHERE parent IS NULL");
+        log_debug('Filling in child artefact paths');
+        set_time_limit(300);
+        $artefacts = get_records_select_menu('artefact', 'parent IS NOT NULL', null, '', 'id, parent');
+        set_time_limit(30);
+        if ($artefacts) {
+            $total = count($artefacts);
+            $done = 0;
+            foreach ($artefacts as $artefactid => $parent) {
+                $path = '/' . implode('/', artefact_get_lineage($artefacts, $artefactid));
                 $todb = new stdClass();
-                $todb->id = $artefact->id;
+                $todb->id = $artefactid;
                 $todb->path = $path;
                 update_record('artefact', $todb);
+                $done++;
+                if ($done % 10000 == 0) {
+                    log_debug("Filling in child artefact paths: {$done}/{$total}");
+                    set_time_limit(30);
+                }
             }
+            log_debug("Filling in child artefact paths: {$done}/{$total}");
         }
+        set_time_limit(300);
     }
 
     // Make objectionable independent of view_access page.
@@ -3759,5 +3773,69 @@ function xmldb_core_upgrade($oldversion=0) {
             set_config('cacheversion', rand(1000, 9999));
         }
     }
+
+    if ($oldversion < 2014092312) {
+        // Need to find the group homepages that have more than one groupview on them
+        // and merge their data into one groupview as we shouldn't allow more than one groupview block
+        // as it breaks pagination
+
+        // First get any pages that have more than one groupview on them
+        // and find the status of the groupview blocks
+        if ($records = get_records_sql_array("SELECT v.id AS view, bi.id AS block FROM {view} v
+            INNER JOIN {block_instance} bi ON v.id = bi.view
+            WHERE v.id IN (
+                SELECT v.id FROM {view} v
+                 INNER JOIN {block_instance} bi ON v.id = bi.view
+                 WHERE bi.blocktype = 'groupviews'
+                  AND v.type = 'grouphomepage'
+                 GROUP BY v.id
+                 HAVING COUNT(v.id) > 1
+            )
+            AND bi.blocktype='groupviews'
+            ORDER BY v.id, bi.id", array())) {
+                require_once(get_config('docroot') . 'blocktype/lib.php');
+                $lastview = 0;
+                // set default
+                $info = array();
+                $x = -1;
+                foreach ($records as $record) {
+                    if ($lastview != $record->view) {
+                        $x++;
+                        $info[$x]['in']['showgroupviews'] = 0;
+                        $info[$x]['in']['showsharedviews'] = 0;
+                        $info[$x]['in']['view'] = $record->view;
+                        $info[$x]['in']['block'] = $record->block;
+                        $lastview = $record->view;
+                    }
+                    else {
+                        $info[$x]['out'][] = $record->block;
+                    }
+                    $bi = new BlockInstance($record->block);
+                    $configdata = $bi->get('configdata');
+                    if (!empty($configdata['showgroupviews'])) {
+                        $info[$x]['in']['showgroupviews'] = 1;
+                    }
+                    if (!empty($configdata['showsharedviews'])) {
+                        $info[$x]['in']['showsharedviews'] = 1;
+                    }
+                }
+
+                // now that we have info on the state of play we need to save one of the blocks
+                // with correct data and delete the not needed blocks
+                foreach ($info as $item) {
+                    $bi = new BlockInstance($item['in']['block']);
+                    $configdata = $bi->get('configdata');
+                    $configdata['showgroupviews'] = $item['in']['showgroupviews'];
+                    $configdata['showsharedviews'] = $item['in']['showsharedviews'];
+                    $bi->set('configdata', $configdata);
+                    $bi->commit();
+                    foreach ($item['out'] as $old) {
+                        $bi = new BlockInstance($old);
+                        $bi->delete();
+                    }
+                }
+        }
+    }
+
     return $status;
 }
