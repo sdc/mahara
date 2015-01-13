@@ -1,12 +1,13 @@
 {**
 * This template displays a blog post.
 *}
+{if $published}
 <div id="blogpost">
     {if $artefacttitle}<h3 class="title">{$artefacttitle|safe}</h3>{/if}
     <div class="postdetails">{$postedbyon}</div>
     {$artefactdescription|clean_html|safe}
     {if isset($attachments)}
-        {if $artefact->get('tags')}<div class="tags">{str tag=tags}: {list_tags owner=$artefact->get('owner') tags=$artefact->get('tags')}</div>{/if}
+        {if $artefacttags}<div class="tags">{str tag=tags}: {list_tags owner=$artefactowner tags=$artefacttags}</div>{/if}
         <table class="cb attachments fullwidth">
             <thead class="expandable-head">
                 <tr>
@@ -39,3 +40,8 @@
     {/if}
     {if isset($commentcount) && $artefact->get('allowcomments')}<div class="postdetails"><a href="{$artefacturl}">{str tag=Comments section=artefact.comment} ({$commentcount})</a></div>{/if}
 </div>
+{else}
+<div>
+{$notpublishedblogpost|safe}
+</div>
+{/if}
