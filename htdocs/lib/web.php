@@ -653,12 +653,13 @@ EOF;
                 'data'   => array(
                     // 'loginform' => auth_generate_login_form(),
                     // Automatically login through Shibboleth via Moodle
-                    'loginform' => '<div id="login_login_container">
+                    'loginform' => '<div id="login_login_container" style="position: relative">
                                         <div id="login_submit_container" class="submit">
                                             <a href="http://moodle.southdevon.ac.uk/auth/mnet/jump.php?hostid=4">
                                                 <input type="button" class="submit" id="login_submit" value="Login"/>
                                             </a>
                                         </div>
+                                        <a href="http://localhost/mahara/htdocs/admin" style="position: absolute; bottom: 0; margin-bottom: 8px">Admin</a>
                                     </div>'
                 ),
             );
