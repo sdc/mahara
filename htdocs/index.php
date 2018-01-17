@@ -17,6 +17,7 @@ require('init.php');
 
 // Check for whether the user is logged in, before processing the page. After
 // this, we can guarantee whether the user is logged in or not for this page.
+
 if (!$USER->is_logged_in()) {
     define('TITLE', get_string('home'));
     $pagename = 'loggedouthome';

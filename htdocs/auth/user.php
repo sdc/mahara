@@ -1558,6 +1558,7 @@ class LiveUser extends User {
         }
         // We don't want to commit the USER object after logout:
         $this->changed = false;
+        redirect('http://mahara.southdevon.ac.uk');
     }
 
     /**

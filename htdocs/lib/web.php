@@ -651,7 +651,15 @@ EOF;
                 'weight' => -10,
                 'id'     => 'sb-loginbox',
                 'data'   => array(
-                    'loginform' => auth_generate_login_form(),
+                    // 'loginform' => auth_generate_login_form(),
+                    // Automatically login through Shibboleth via Moodle
+                    'loginform' => '<div id="login_login_container">
+                                        <div id="login_submit_container" class="submit">
+                                            <a href="http://moodle.southdevon.ac.uk/auth/mnet/jump.php?hostid=4">
+                                                <input type="button" class="submit" id="login_submit" value="Login"/>
+                                            </a>
+                                        </div>
+                                    </div>'
                 ),
             );
         }

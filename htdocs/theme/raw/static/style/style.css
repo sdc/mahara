@@ -4600,3 +4600,12 @@ li.wallpost {
 .wallpost .controls a {
     margin: 0;
 }
+
+#login_new {
+    padding: 5px;
+    font-size: 1.167em;
+    font-weight: bold;
+    background: url(../images/btn_bkgd.png) repeat-x 0 50%;
+    border-color: #861d80;
+    color: #FFFFFF;
+}

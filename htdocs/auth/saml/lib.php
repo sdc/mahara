@@ -249,6 +249,7 @@ class AuthSaml extends Auth {
 
         // redirect for logout of SAML 2.0 IdP
         redirect($CFG->wwwroot.'/auth/saml/index.php?logout=1');
+
     }
 
     public function after_auth_setup_page_hook() {
