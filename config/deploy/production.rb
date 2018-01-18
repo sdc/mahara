@@ -30,7 +30,7 @@ role :web, %w{deploy@mahara.southdevon.ac.uk}
 # For available Capistrano configuration variables see the documentation page.
 # http://capistranorb.com/documentation/getting-started/configuration/
 # Feel free to add new variables to customise your setup.
-set :branch, "master"
+set :branch, "sdc_1801"
 set :deploy_to, '/srv/mahara'
 
 

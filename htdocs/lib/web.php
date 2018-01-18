@@ -659,7 +659,7 @@ EOF;
                                                 <input type="button" class="submit" id="login_submit" value="Login"/>
                                             </a>
                                         </div>
-                                        <a href="http://localhost/mahara/htdocs/admin" style="position: absolute; bottom: 0; margin-bottom: 8px">Admin</a>
+                                        <a href="http://mahara.southdevon.ac.uk/admin" style="position: absolute; bottom: 0; margin-bottom: 8px">Admin</a>
                                     </div>'
                 ),
             );
