@@ -14,3 +14,15 @@
 	float: left;
 	padding-right: 5px;
 }
+#login_submit, #login_submit:hover, #login_submit_container a:hover {
+	text-decoration: none;
+}
+.btn-primary {
+	border-color: #533078;
+}
+#admin-login {
+	color: #333;
+}
+#admin-login:hover {
+	color: #31708f;
+}

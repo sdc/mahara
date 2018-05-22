@@ -880,7 +880,15 @@ EOF;
                 'weight' => -10,
                 'id'     => 'sb-loginbox',
                 'data'   => array(
-                    'loginform' => $authgenerateloginform,
+                    // 'loginform' => $authgenerateloginform,
+                    'loginform' => '<div id="login_login_container">
+                                        <div id="login_submit_container" class="submit">
+                                            <a href="http://moodle.southdevon.ac.uk/auth/mnet/jump.php?hostid=4">
+                                                <input type="button" class="btn-primary btn-block submit btn" id="login_submit" value="Login"/>
+                                            </a>
+                                        </div>
+                                        <a id="admin-login" href="http://mahara.southdevon.ac.uk/admin">Admin</a>
+                                    </div>'                    
                 ),
             );
         }
@@ -1331,7 +1339,8 @@ class Theme {
      */
     public function header_logo($name = false) {
         if (!empty($this->headerlogo)) {
-            return get_config('wwwroot') . 'thumb.php?type=logobyid&id=' . $this->headerlogo;
+//            return get_config('wwwroot') . 'thumb.php?type=logobyid&id=' . $this->headerlogo;
+            return "http://mahara-clone.southdevon.ac.uk/theme/sdc/images/site-logo.svg";
         }
         else if ($name) {
             return $this->get_image_url('site-logo-' . $name);

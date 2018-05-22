@@ -51,7 +51,7 @@
                 <div id="logo-area" class="logo-area">
                     <img id="sdc-logo" src="{$WWWROOT}/theme/sdc/images/sdc1.jpg">
                     <a href="{$WWWROOT}" class="logo {if $sitelogosmall}change-to-small{/if} ">
-                        <img src="{$sitelogo}" alt="{$sitename}" data-customlogo="{$sitelogocustom}">
+                        <img src="{$sitelogo}" alt="{$sitename}" data-customlogo="1">
                     </a>
                     {if $sitelogosmall}
                         <a href="{$WWWROOT}" class="logoxs">

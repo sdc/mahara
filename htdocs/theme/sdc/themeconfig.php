@@ -15,7 +15,7 @@ $theme->formrenderer = 'div';
 
 /* Set parent to boolean FALSE  to specify the theme has no parent */
 /* Currently Ocean cannot be a parent theme for subtheme */
-$theme->parent      = 'raw';
+$theme->parent      = 'ocean';
 
 /* This theme includes all css via sass, so we don't need raw's css. */
 $theme->overrideparentcss = true;

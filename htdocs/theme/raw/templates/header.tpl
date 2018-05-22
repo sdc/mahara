@@ -49,7 +49,6 @@
         <div class="navbar navbar-default navbar-main">
             <div class="container">
                 <div id="logo-area" class="logo-area">
-                    <img id="sdc-logo" src="{$WWWROOT}/theme/sdc/images/sdc1.jpg">
                     <a href="{$WWWROOT}" class="logo {if $sitelogosmall}change-to-small{/if} ">
                         <img src="{$sitelogo}" alt="{$sitename}" data-customlogo="{$sitelogocustom}">
                     </a>
