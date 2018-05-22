@@ -26,3 +26,6 @@
 #admin-login:hover {
 	color: #31708f;
 }
+#nav li a:hover, #navadmin li a:hover, #navuser li a:hover {
+	background-color: #1d6982;
+}
