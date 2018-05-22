@@ -10,3 +10,7 @@
 	background: #e99adb url(../images/bg1.jpg) no-repeat center 0 !important;
 	color: red !important;
 }*/
+#sdc-logo {
+	float: left;
+	padding-right: 5px;
+}
